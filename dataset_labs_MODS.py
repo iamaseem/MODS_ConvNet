@@ -1,11 +1,3 @@
-"""
-code to build dataset for ConvNet training on Tuberculosis MODS images.
-Training dataset will have transformations, labels.
-Dataset can be used in Theano or Keras.
-
-Updated to use UPCH images
-"""
-
 #import libraries
 import numpy
 import scipy as scipy
@@ -34,7 +26,7 @@ class dataset:
 		self.ndataset = 5
 
 
-	def DSetGlobal(self, directory = '/home/musk/MODS_data/data/by_lab/'):
+	def DSetGlobal(self, directory = './data/'):
           '''
           Function to build a rough dataset of images with labels.
           Returns a pkl file with data and data_labels.
@@ -53,11 +45,11 @@ class dataset:
 		  foldername = next(os.walk(directory+v))[1]
 		  print foldername
 		  #exit()
-		  for dirname in foldername: 
+		  for dirname in foldername:
 		  ##dirname: positive and negative
 		     print datetime.datetime.now()
 		     f2 = os.path.join(directory+v,dirname)
-		     onlyfiles = [ f3 for f3 in os.listdir(f2) if os.path.isfile(os.path.join(f2,f3))]		
+		     onlyfiles = [ f3 for f3 in os.listdir(f2) if os.path.isfile(os.path.join(f2,f3))]
 		     suffix = dirname
 		     if suffix == 'positive':
 				label = 1
@@ -73,13 +65,13 @@ class dataset:
 		             self.data_label.append(label)
 		         except IOError: ##If the image can't be read, or is corrupted
 		             print(filename)
-		         #scipy.misc.imshow(current_image) ##shows the image being read 
-		   
+		         #scipy.misc.imshow(current_image) ##shows the image being read
+
 		  ## shuffles de images with their label
 		  combined = zip(self.data, self.data_label)
 		  random.shuffle(combined)
 		  self.data[:], self.data_label[:] = zip(*combined)
-		  
+
 		  print len(self.data)
 
 		  dataset = [self.data, self.data_label]
@@ -90,7 +82,7 @@ class dataset:
 
 	def Dset(self, v, ndataset=5, name='MODS_data.pkl'):
          '''
-         function to build datasets. ndataset: number of datasets wanted; 
+         function to build datasets. ndataset: number of datasets wanted;
          name: pkl file where the data from DSetGlobal is stored. Code makes sure
          that there is the same ratio of positive/negative images in each dataset.
          This is done, setting a lmda. If you set a really low lmda, you might have
@@ -108,7 +100,7 @@ class dataset:
 		   }
          f = file(name, 'rb')
          datapapa = cPickle.load(f)
-         f.close()    
+         f.close()
          w = datapapa[0]
          x = datapapa[1]
          y = range(len(x))
@@ -133,18 +125,18 @@ class dataset:
              else:
                  #print('Does not have a acceptable ratio', ratio, dif)
                  #fun+= 1
-                 pass 
+                 pass
          f = file('seg_MODS_data_{0}.pkl'.format(v), 'wb')
          cPickle.dump(seg_data, f, protocol=cPickle.HIGHEST_PROTOCOL)
          f.close()
-         
+
 	def Djoin(self, v, name='seg_MODS_data.pkl'):
          '''
          Takes as input segmented data from the Dset function. The data is split into
          training and testing. Each list (dataset) in the segmented data is taken,
          once, as the testing set. Then, the rest of the data is shuffled, and put
          into the testing set. Therefore, for each dataset, we have a different testing
-         set of images, with also a different set of training images, shuffled twice.     
+         set of images, with also a different set of training images, shuffled twice.
          Returns n datasets (same amount as in Dset). The datasets are made of two lists:
          training and testing. These lists are made of two lists each: data and labels.
          '''
@@ -163,12 +155,12 @@ class dataset:
              for j in data_temp:
                  data_join+=j[0]
                  data_label_join+=j[1]
-             
+
              ##Shuffle data
              combined = zip(data_join, data_label_join)
              random.shuffle(combined)
-             data_join[:], data_label_join[:] = zip(*combined)                 
-            
+             data_join[:], data_label_join[:] = zip(*combined)
+
              training = [data_join,data_label_join]
              dataset_new = [training,validation]
              f = file('MODS_224_224_{0}_{1}.pkl'.format(i, v),'wb')
@@ -177,11 +169,10 @@ class dataset:
              f.close()
 
 
-directory = '/home/musk/MODS_data/data/by_lab/'
+directory = './data/'
 a = dataset()
 #a.DSetGlobal()
 
-for v in os.listdir(directory):	
+for v in os.listdir(directory):
 	#a.Dset(v, name='MODS_data_{0}.pkl'.format(v))
 	a.Djoin(v, name = 'seg_MODS_data_{0}.pkl'.format(v))
-
