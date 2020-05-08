@@ -46,7 +46,7 @@ def deprocess_image(x):
 
 # build the network with best weights
 model = foo()
-weights='best_weights_3_santiago.h5'
+weights='resc_CNN_weights_for_filter_viz_and_act.h5'
 model.load_weights(weights)
 
 print('Model and weights loaded.')
