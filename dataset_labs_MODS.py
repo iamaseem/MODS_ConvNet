@@ -1,11 +1,3 @@
-"""
-code to build dataset for ConvNet training on Tuberculosis MODS images.
-Training dataset will have transformations, labels.
-Dataset can be used in Theano or Keras.
-
-Updated to use UPCH images
-"""
-
 #import libraries
 import numpy
 import scipy as scipy
