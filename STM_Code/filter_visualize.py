@@ -179,7 +179,7 @@ def max_act(output_index):
 		step = 1.
 
 		# we start from a gray image with some random noise
-		if K.image_dim_ordering() == 'th':
+		if K.common.image_dim_ordering() == 'th':
 		    input_img_data = np.random.random((1, 1, img_width, img_height))
 		input_img_data = (input_img_data - 0.5) * 20 + 128
 
