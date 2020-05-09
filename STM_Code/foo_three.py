@@ -22,7 +22,7 @@ def foo():
 
     # Determine proper input shape
 	if keras.__version__ > '1.0.3':
-		K.set_image_dim_ordering('th')
+		K.common.set_image_dim_ordering('th')
 	input_shape = (1, 224, 224)
 
 	#img_input = Input(shape=input_shape)
