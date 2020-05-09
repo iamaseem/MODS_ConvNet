@@ -46,7 +46,7 @@ def deprocess_image(x):
 
 # build the network with best weights
 model = foo()
-weights='resc_CNN_weights_for_filter_viz_and_act.h5'
+weights='best_weights_3_santiago.h5'
 model.load_weights(weights)
 
 print('Model and weights loaded.')
@@ -79,7 +79,7 @@ def filter_viz():
 	    # we build a loss function that maximizes the activation
 	    # of the nth filter of the layer considered
 	    layer_output = layer_dict[layer_name].output
-	    if K.common.image_dim_ordering() == 'th':
+	    if K.image_dim_ordering() == 'th':
 		loss = K.mean(layer_output[:, filter_index, :, :])
 	    else:
 		loss = K.mean(layer_output[:, :, :, filter_index])
@@ -99,7 +99,7 @@ def filter_viz():
 	    step = 1.
 
 	    # we start from a gray image with some random noise
-	    if K.common.image_dim_ordering() == 'th':
+	    if K.image_dim_ordering() == 'th':
 		input_img_data = np.random.random((1, 1, img_width, img_height))
 	    else:
 		input_img_data = np.random.random((1, img_width, img_height, 3))
@@ -179,7 +179,7 @@ def max_act(output_index):
 		step = 1.
 
 		# we start from a gray image with some random noise
-		if K.common.image_dim_ordering() == 'th':
+		if K.image_dim_ordering() == 'th':
 		    input_img_data = np.random.random((1, 1, img_width, img_height))
 		input_img_data = (input_img_data - 0.5) * 20 + 128
 
@@ -232,7 +232,3 @@ if viz:
 if mk_img:
 	img,output_index,n = max_act(0)
 	imsave('max_activation_{0}_{1}_{2}x{2}.png'.format(output_index, weights, n),img)
-
-
-
-
