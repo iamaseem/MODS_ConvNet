@@ -79,7 +79,7 @@ def filter_viz():
 	    # we build a loss function that maximizes the activation
 	    # of the nth filter of the layer considered
 	    layer_output = layer_dict[layer_name].output
-	    if K.image_dim_ordering() == 'th':
+	    if K.common.image_dim_ordering() == 'th':
 		loss = K.mean(layer_output[:, filter_index, :, :])
 	    else:
 		loss = K.mean(layer_output[:, :, :, filter_index])
