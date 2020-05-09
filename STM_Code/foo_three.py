@@ -29,7 +29,7 @@ def foo():
 
 	model = Sequential()
 
-	model.add(Convolution2D(32, 3, 3,
+	model.add(Convolution2D(32, 3, strides=3,
 			        input_shape=input_shape,init=weight_init, name='conv1_1', data_format='channels_first'))
 	model.add(BatchNormalization())
 	model.add(Activation('relu'))
