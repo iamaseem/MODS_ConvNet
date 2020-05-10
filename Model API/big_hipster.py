@@ -15,7 +15,7 @@ from keras.utils import np_utils
 def cifar(): #maybe change border mode, idk; also maybe add BatchNormalization(axis=1)
 
     # Determine proper input shape
-    K.common.set_image_dim_ordering('th')
+    K.set_image_dim_ordering('th')
     input_shape = (1, 256, 192)
     img_input = Input(shape=input_shape)
 
@@ -64,5 +64,3 @@ def cifar(): #maybe change border mode, idk; also maybe add BatchNormalization(a
     #model.load_weights(weights)
 
     return model
-
-
